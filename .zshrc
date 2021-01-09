@@ -24,7 +24,7 @@ ZSH_THEME="risto"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="false"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -68,7 +68,7 @@ DISABLE_AUTO_UPDATE="false"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -97,3 +97,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export FZF_DEFAULT_COMMAND='fd --type d'
+export FZF_DEFAULT_OPTS="--layout=reverse --inline=info --height=80%"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
