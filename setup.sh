@@ -61,6 +61,9 @@ fi
 # Copy config files
 echo "Copying files..."
 cp -r ./* /home/$LOGNAME/ > /dev/null 2>$1
+echo "Making scripts for i3status executable..."
+find /home/$LOGNAME/.config/i3status -type f -name "*.sh" -exec chmod +x {} + > /dev/null 2>$1
+
 
 # Install Oh-My-Zsh
 echo "Installing Oh-My-Zsh..."
