@@ -98,6 +98,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias ls="ls -lah --color=auto"
+
 export FZF_DEFAULT_COMMAND='fd --type d'
 export FZF_DEFAULT_OPTS="--layout=reverse --inline=info --height=80%"
 
