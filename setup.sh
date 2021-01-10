@@ -5,7 +5,7 @@ if [[ $EUID != 0 ]]; then
 fi
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-PACKAGES=(git wget zsh vim i3status)
+PACKAGES=(git wget zsh vim i3status awk)
 
 package_exists() {
     command -v "$1" >/dev/null 2>&1
@@ -77,11 +77,12 @@ echo -e "Installing Oh-My-Zsh plugins..."
 su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" &>/dev/null
 su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" &>/dev/null
 su $SUDO_USER -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" &>/dev/null
+su $SUDO_USER -c "git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z" &>/dev/null
 su $SUDO_USER -c "yes | ~/.fzf/install" &>/dev/null
 
 # Set Zsh as default shell
-if [[ $(sudo -u $SUDO_USER echo $SHELL) = /usr/bin/zsh ]]; then
-    echo
+if [[ "$(awk -F: -v user="$SUDO_USER" '$1 == user {print $NF}' /etc/passwd)" =~ "$(which zsh)" ]]; then
+    echo "Zsh is already your default shell"
 else
     read -p "You don't have Zsh as your default shell. Would you like to change this? [y/N] " -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
