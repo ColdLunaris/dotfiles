@@ -1,89 +1,93 @@
 #!/bin/bash
-if [ [ $EUID -ne 0 ]] then
+if [[ $EUID != 0 ]]; then
     echo "Run this script as root"
     exit 1
 fi
 
-DNF_CMD=$(which dnf)
-APT_CMD=$(which apt)
-PACMAN_CMD=$(which pacman)
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 PACKAGES=(git wget zsh vim i3status)
-declare -a PACKAGES_TO_INSTALL
+
+package_exists() {
+    command -v "$1" >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo "$1 is not installed"
+    else
+        echo "$1 is installed"
+        PACKAGES=(${PACKAGES[@]/$1})
+    fi
+}
 
 # Check if packages are installed
-echo "Checking for required packages..."
-for p in "${PACKAGES[@]}"; do
-    if [[ ! command -v "$p" &> /dev/null ]] then
-	echo "$p is not installed"
-	PACKAGES_TO_INSTALL+=($p)
-    else
-	echo "$p is installed"
-    fi
+echo -e "Checking for required packages..."
+for package in ${PACKAGES[@]}; do
+    package_exists "$package"
 done
 
 # Install packages if they are missing
-if [[ ${PACKAGES_TO_INTSALL[@]} -eq 0 ]] then
-    echo "All required packages are present..."
+if [[ ${#PACKAGES[@]} -eq 0 ]]; then
+    echo -e "All required packages are present..."
 else
-    read -p "You are missing ${PACKAGES_TO_INTSALL[@]} packages. Would you like to install them? " -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]] then
-	echo "Installing packages..."
+    read -p "You are missing ${#PACKAGES[@]} packages. Would you like to install them? [y/N] " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+	echo -e "\nInstalling packages..."
 
-        if [[ ! -z $DNF_CMD ]] then
+        if [[ ! -z $(which dnf) ]]; then
             PM='dnf'
-        elif [[ ! -z $APT_CMD ]] then
+        elif [[ ! -z $(which apt) ]]; then
             PM='apt'
-	elif [[ ! -z $PACMAN_CMD ]] then
+	elif [[ ! -z $(which pacman) ]]; then
 	    PM='pacman'
         else
-	    echo "No compatible package manager was found. Exiting..."
+	    echo -e "No compatible package manager was found. Exiting..."
 	    exit 1;
 	fi
 
-        if [[ $PM != 'pacman' ]] then
-	    yes | $PM install ${PACKAGES_TO_INTSALL[@]}
+        if [[ $PM != 'pacman' ]]; then
+	    yes | $PM install ${PACKAGES[@]} &>/dev/null
         else
-	    yes | $PM -Syu ${PACKAGES_TO_INTSALL[@]}
+	    yes | $PM -Syu ${PACKAGES[@]} &>/dev/null
 	fi
 
-	if [ $? -eq 0 ] then
-	    echo "Installation successful. Continuing..."	
+	if [ $? -eq 0 ]; then
+	    echo -e "Installation successful. Continuing..."
 	else
-            echo "Cannot install packages. Install them manually"
+            echo -e "Cannot install packages. Install them manually"
 	    exit 1;
 	fi
     else
-	echo "These packages must be installed for this script to work. Exiting..."
+	echo -e "\nThese packages must be installed for this script to work. Exiting..."
         exit 1
     fi
 fi
 
 # Copy config files
-echo "Copying files..."
-cp -r ./* /home/$LOGNAME/ > /dev/null 2>$1
-echo "Making scripts for i3status executable..."
-find /home/$LOGNAME/.config/i3status -type f -name "*.sh" -exec chmod +x {} + > /dev/null 2>$1
+echo -e "Copying files..."
+cp -r $DIR/. /home/$SUDO_USER/
+chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/*
 
+echo -e "Making scripts for i3status executable..."
+find /home/$SUDO_USER/.config/i3status -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
 
 # Install Oh-My-Zsh
-echo "Installing Oh-My-Zsh..."
-sudo -u $LOGNAME sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" > /dev/null 2>$1
+echo -e "Installing Oh-My-Zsh..."
+su $SUDO_USER -c 'sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" &>/dev/null' &>/dev/null
 
 # Install Oh-My-Zsh plugins
-echo "Installing Oh-My-Zsh plugins..."
-sudo -u $LOGNAME git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting > /dev/null 2>$1
-sudo -u $LOGNAME git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions > /dev/null 2>$1
-sudo -u $LOGNAME git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf > /dev/null 2>$1
-sudo -u $LOGNAME ~/.fzf/install > /dev/null 2>$1
+echo -e "Installing Oh-My-Zsh plugins..."
+su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" &>/dev/null
+su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" &>/dev/null
+su $SUDO_USER -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" &>/dev/null
+su $SUDO_USER -c "yes | ~/.fzf/install" &>/dev/null
 
 # Set Zsh as default shell
-if [[ $(sudo -u $LOGNAME echo $SHELL) = /usr/bin/zsh ]] then
+if [[ $(sudo -u $SUDO_USER echo $SHELL) = /usr/bin/zsh ]]; then
     echo
 else
-    read -p "You don't have Zsh as your default shell. Would you like to change this? " -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]] then
-        chsh --shell /usr/bin/zsh $LOGNAME
+    read -p "You don't have Zsh as your default shell. Would you like to change this? [y/N] " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        chsh --shell $(which zsh) $SUDO_USER
+        echo -e "\nShell has been set to Zsh. Open a new terminal for the changes to take effect"
     else
-	echo "Keeping default shell..."
+	echo -e "\nKeeping default shell..."
     fi
 fi
