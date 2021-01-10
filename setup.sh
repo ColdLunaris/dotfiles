@@ -30,7 +30,8 @@ else
     read -p "You are missing ${#PACKAGES[@]} packages. Would you like to install them? [y/N] " -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
 	echo -e "\nInstalling packages..."
-
+ 
+	# Find the right package manager. Exit if failed
         if [[ ! -z $(which dnf) ]]; then
             PM='dnf'
         elif [[ ! -z $(which apt) ]]; then
@@ -42,6 +43,7 @@ else
 	    exit 1;
 	fi
 
+        # Install packages
         if [[ $PM != 'pacman' ]]; then
 	    yes | $PM install ${PACKAGES[@]} &>/dev/null
         else
@@ -63,8 +65,15 @@ fi
 # Copy config files
 echo -e "Copying files..."
 cp -r $DIR/. /home/$SUDO_USER/
-chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/*
 
+#Change owner of files since root copied them
+echo -e "Changing owners of copied files from root to $SUDO_USER"
+chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.Xresources
+chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.vimrc
+chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.zshrc
+chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/i3*
+
+# Make custom scripts executable
 echo -e "Making scripts for i3status executable..."
 find /home/$SUDO_USER/.config/i3status -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
 
