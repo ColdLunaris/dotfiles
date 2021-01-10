@@ -215,7 +215,7 @@ bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle && killall -USR1 i3st
 
 # Set custom windows for certain applications
 assign [class="firefox"] $ws2
-assign [class="firefox"] layout tabbed
+workspace $ws2 layout tabbed
 
 # Set gap sizes
 bindsym $mod+z gaps outer current plus 5
