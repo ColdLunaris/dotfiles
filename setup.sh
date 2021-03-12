@@ -62,6 +62,8 @@ else
     fi
 fi
 
+echo -e "Install polybar manually"
+
 # Copy config files
 echo -e "Copying files..."
 cp -r $DIR/. /home/$SUDO_USER/
@@ -72,10 +74,12 @@ chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.Xresources
 chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.vimrc
 chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.zshrc
 chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/i3*
+chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/polybar
 
 # Make custom scripts executable
-echo -e "Making scripts for i3status executable..."
+echo -e "Making scripts for i3status and polybar executable..."
 find /home/$SUDO_USER/.config/i3status -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
+find /home/$SUDO_USER/.config/polybar -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
 
 # Install Oh-My-Zsh
 echo -e "Installing Oh-My-Zsh..."
