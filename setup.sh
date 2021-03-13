@@ -64,22 +64,29 @@ fi
 
 echo -e "Install polybar manually"
 
-# Copy config files
-echo -e "Copying files..."
-cp -r $DIR/. /home/$SUDO_USER/
+# Link config files
+echo -e "Hardlinking files for easy updating to git..."
+echo -r "DO NOT REMOVE THIS DIRECTORY WHEN DONE. IT WILL DELETE FILES!!!"
+mkdir -p /home/$SUDO_USER/.config/{i3,i3status,polybar}
+mkdir -p /home/$SUDO_USER/.fonts
+ln $DIR/{.*rc,.Xresources} /home/$SUDO_USER/
+ln $DIR/.config/i3/* /home/$SUDO_USER/.config/i3/
+ln $DIR/.config/i3status/* /home/$SUDO_USER/.config/i3status/
+ln $DIR/.config/polybar/* /home/$SUDO_USER/.config/polybar/
+ln $DIR/.config/lock.sh /home/$SUDO_USER/.config/
+ln $DIR/.fonts/* /home/$SUDO_USER/.fonts/
 
 #Change owner of files since root copied them
 echo -e "Changing owners of copied files from root to $SUDO_USER"
-chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.Xresources
-chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.vimrc
-chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.zshrc
+chown $SUDO_USER:$SUDO_USER /home/$SUDO_USER/{.*rc,.Xresources}
 chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/i3*
 chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER/.config/polybar
 
 # Make custom scripts executable
-echo -e "Making scripts for i3status and polybar executable..."
+echo -e "Making scripts executable..."
 find /home/$SUDO_USER/.config/i3status -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
 find /home/$SUDO_USER/.config/polybar -type f -name "*.sh" -exec chmod +x {} + #&>/dev/null
+find /home/$SUDO_USER/.config -type f -name "lock.sh" -exec chmod +x {} + #&>/dev/null
 
 # Install Oh-My-Zsh
 echo -e "Installing Oh-My-Zsh..."
