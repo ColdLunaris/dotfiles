@@ -90,15 +90,15 @@ find /home/$SUDO_USER/.config -type f -name "lock.sh" -exec chmod +x {} + #&>/de
 
 # Install Oh-My-Zsh
 echo -e "Installing Oh-My-Zsh..."
-su $SUDO_USER -c 'sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" &>/dev/null' &>/dev/null
+su $SUDO_USER -c 'sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
 
 # Install Oh-My-Zsh plugins
 echo -e "Installing Oh-My-Zsh plugins..."
-su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" &>/dev/null
-su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" &>/dev/null
-su $SUDO_USER -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" &>/dev/null
-su $SUDO_USER -c "git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z" &>/dev/null
-su $SUDO_USER -c "yes | ~/.fzf/install" &>/dev/null
+su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+su $SUDO_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" 
+su $SUDO_USER -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" 
+su $SUDO_USER -c "git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z"
+su $SUDO_USER -c "yes | ~/.fzf/install"
 
 # Set Zsh as default shell
 if [[ "$(awk -F: -v user="$SUDO_USER" '$1 == user {print $NF}' /etc/passwd)" =~ "$(which zsh)" ]]; then
