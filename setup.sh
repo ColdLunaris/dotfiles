@@ -4,6 +4,7 @@ if [[ $EUID != 0 ]]; then
     exit 1
 fi
 
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 PACKAGES=(feh xautolock xss-lock git wget zsh vim i3status awk compton hsetroot xsel rofi xsettingsd lxappearance scrot viewnior i3lock dunst)
 
