@@ -66,7 +66,7 @@ echo -e "Install polybar manually"
 
 # Link config files
 echo -e "Hardlinking files for easy updating to git..."
-echo -r "DO NOT REMOVE THIS DIRECTORY WHEN DONE. IT WILL DELETE FILES!!!"
+echo -e "DO NOT REMOVE THIS DIRECTORY WHEN DONE. IT WILL DELETE FILES!!!"
 mkdir -p /home/$SUDO_USER/.config/{i3,i3status,polybar}
 mkdir -p /home/$SUDO_USER/.fonts
 ln $DIR/{.*rc,.Xresources} /home/$SUDO_USER/
