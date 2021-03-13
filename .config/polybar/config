@@ -186,7 +186,7 @@ label =  %gb_used%
 
 [module/wlan]
 type = internal/network
-interface = wlo1
+interface = wlan0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>

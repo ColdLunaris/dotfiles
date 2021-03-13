@@ -20,6 +20,7 @@ order += "ethernet _first_"
 order += "cpu_usage"
 order += "memory"
 order += "disk /"
+order += "battery 0"
 order += "volume master"
 order += "tztime local"
 
@@ -31,14 +32,14 @@ ethernet _first_ {
 }
 
 cpu_usage {
-	format = "<span background='#0c7dee'>[ CPU  %usage ]</span>"
+	format = "<span background='#0c7dee'>[  %usage ]</span>"
 	max_threshold = 75
 	separator = false
         separator_block_width = 1
 }
 
 memory {
-        format = "<span background='#00df8a'>[ RAM  Used: %used Total: %available ]</span>"
+        format = "<span background='#00df8a'>[  Used: %used ]</span>"
         threshold_degraded = "1G"
         format_degraded = "<span background='#bb0000'>[  MEMORY < %available ]</span>"
 	separator = false
@@ -46,7 +47,7 @@ memory {
 }
 
 disk "/" {
-        format = "<span background='#a1d569'>[ HDD  / %free Free ]</span>"
+        format = "<span background='#a1d569'>[  / %free Free ]</span>"
 	separator = false
         separator_block_width = 1
 }
@@ -59,6 +60,19 @@ volume master {
         mixer_idx = 0
 	separator = false
         separator_block_width = 1
+}
+
+battery 0 {
+	last_full_capacity = true
+	format = "<span background='#7cfc00'>[ %status %percentage ]</span>"
+	format_down = "<span background='#d70808'> [  Missing ]</span>"
+	status_chr = ""
+	status_bat = ""
+	separator = false
+	low_threshold = 20
+	threshold_type = time
+	path = "/sys/class/power_supply/BAT1/uevent"
+	separator_block_width = 1
 }
 
 tztime local {
