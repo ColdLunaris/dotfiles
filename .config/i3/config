@@ -188,9 +188,9 @@ gaps outer 15
 #set $refresh_i3status killall -SIGUSR1 i3status
 
 # Set volume controls and refresh on change
-#bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute && killall -USR1 i3status"
-#bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute && killall -USR1 i3status"
-#bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle && killall -USR1 i3status"
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
+bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 
 # Set custom windows for certain applications
 assign [class="firefox"] $ws2

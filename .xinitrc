@@ -6,3 +6,6 @@
 
 # Set wallpaper
 feh --no-fehbg --bg-scale '$HOME/Pictures/wallpaper.png'&
+
+xset +fp /home/aiden/.fonts
+xset fp rehash
