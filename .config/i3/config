@@ -209,4 +209,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Wallpaper
-exec_always --no-statup-id feh --no-fehbg --bg-scale '/home/aiden/Pictures/wallpaper.png' &
+exec_always --no-startup-id feh --no-fehbg --bg-scale /usr/share/backgrounds/wallpaper.png
+
+# Compton / Picom
+exec_always --no-startup-id picom --config $HOME/.config/picom.conf
