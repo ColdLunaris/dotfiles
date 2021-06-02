@@ -11,3 +11,4 @@ filetype plugin indent on
 set modelines=0
 set ruler
 set encoding=utf-8
+set relativenumber
