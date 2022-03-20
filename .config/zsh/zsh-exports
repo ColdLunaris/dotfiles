@@ -1,0 +1,22 @@
+#!/bin/sh
+HISTSIZE=10000000
+SAVEHIST=10000000
+
+# XDG Paths
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+
+# Global variables
+export EDITOR="vim"
+#export BROWSER="firefox"
+#export TERMINAL="konsole"
+
+# PATH
+export PATH=$HOME/.local/bin:$PATH
+
+# Set correct VDPAU driver
+export VDPAU_DRIVER="radeonsi"
+
+# Enable Wayland-support in Firefox
+set -x MOZ_ENABLE_WAYLAND 1
