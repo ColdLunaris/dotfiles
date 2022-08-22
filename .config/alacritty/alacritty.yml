@@ -47,3 +47,17 @@ cursor:
 
 shell:
   program: /bin/zsh
+
+font:
+  normal:
+    family: Hack
+    style: Regular
+  bold:
+    family: Hack
+    style: Bold
+  italic:
+    family: Hack
+    style: Italic
+  bold_italic:
+    family: Hack
+  style: Bold Italic
