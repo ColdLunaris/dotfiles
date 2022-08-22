@@ -333,5 +333,10 @@ workspace $ws2 gaps inner 0
 set $lockman exec bash ~/.config/sway/lockman.sh
 bindsym $mod+l exec $lockman
 
-# Set keyboard lighting profile on start
+# Set RGB lighting profile on start
 exec_always 'ckb-next -b && ckb-next -p main -m blue'
+exec_always 'openrgb -d 0 -m static -c 03FDFC'
+exec_always 'ratbagctl warbling-mara led 0 set color 03FDFC'
+
+# Start polkit
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
