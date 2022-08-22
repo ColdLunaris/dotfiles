@@ -9,16 +9,16 @@
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
+set $left j
+set $down k
+set $up i
 set $right l
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu 'rofi -modi run, drun window -show drun' 
+set $menu 'rofi -show drun -font "Source Code Pro 14"'
 
 ### Output configuration
 #
@@ -35,13 +35,13 @@ set $menu 'rofi -modi run, drun window -show drun'
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
+ #exec swayidle -w \
+ #         timeout 1800 'swaylock -f -c 000000' \
+ #         timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+ #         before-sleep 'swaylock -f -c 000000'
 #
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
+# This will lock your screen after 30 minutes of inactivity, then turn off
+# your displays after another 30 minutes, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
@@ -87,10 +87,10 @@ set $menu 'rofi -modi run, drun window -show drun'
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    #bindsym $mod+$left focus left
+    #bindsym $mod+$down focus down
+    #bindsym $mod+$up focus up
+    #bindsym $mod+$right focus right
     # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
     bindsym $mod+Down focus down
@@ -98,10 +98,10 @@ set $menu 'rofi -modi run, drun window -show drun'
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    #bindsym $mod+Shift+$left move left
+    #bindsym $mod+Shift+$down move down
+    #bindsym $mod+Shift+$up move up
+    #bindsym $mod+Shift+$right move right
     # Ditto, with arrow keys
     bindsym $mod+Shift+Left move left
     bindsym $mod+Shift+Down move down
@@ -285,6 +285,7 @@ font pango: SourceCodePro Medium 10
 # Disable mouse acceleration
 input '*' {
     accel_profile flat
+    xkb_numlock enabled
 }
 
 # Set key for switching audio sinks
@@ -311,3 +312,26 @@ bindsym Print exec grim -g "$(slurp -d)" $HOME/Pictures/screenshots/screenshot.p
 # Remove gaps for certain workspaces
 workspace $ws2 gaps outer 0
 workspace $ws2 gaps inner 0
+
+# Turn off screen after 50 seconds, and lock after 60. Prevent locks while audio is playing
+#exec sway-audio-idle-inhibit
+#set $lock exec "$HOME/.config/sway/lock.sh"
+#set $lock swaylock --screenshots \
+#    --clock --timestr '%r' --datestr '%d. %b %Y' \
+#    --indicator-idle-visible --indicator-radius 100 --indicator-thickness 7 \
+#    --ignore-empty-password \
+#    --ring-color 00565e --key-gl-color 12e9fc --text-color 12e9fc \
+#    --line-color 00000000 --inside-color 000088 --separator-color 00000000 \
+#    --fade-in 0.2 \
+#    --effects-pixelate 30 --effects-blur 7x5 --effects-vignette 0.5:0.5
+#exec swayidle -w \
+#    timeout 60 $lock \
+#    timeout 50 'swaymsg "output * dpms off"' \
+#    resume 'swaymsg "output * dpms on"' \
+#    before-sleep $lock
+
+set $lockman exec bash ~/.config/sway/lockman.sh
+bindsym $mod+l exec $lockman
+
+# Set keyboard lighting profile on start
+exec_always 'ckb-next -b && ckb-next -p main -m blue'
