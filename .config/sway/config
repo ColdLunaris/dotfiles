@@ -18,7 +18,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu 'rofi -show drun -font "Source Code Pro 14"'
+set $menu 'rofi -show drun -font "Source Code Pro 14"' 
 
 ### Output configuration
 #
@@ -276,7 +276,7 @@ bindsym --locked XF86AudioPrev exec "playerctl previous --player spotify"
 
 # Wallpaper
 output '*' {
-    bg /home/lunaris/Pictures/Wallpapers/Wallpaper.jpg fill
+    bg $HOME/Pictures/Wallpapers/Wallpaper.png fill
 }
 
 # Custom font
