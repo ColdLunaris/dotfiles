@@ -236,14 +236,14 @@ input * {
     xkb_layout "no"
 }
 # Display configuration
-output 'Unknown MSI MAG321CQR KA3H018500005' {
-    mode 2560x1440@143.972Hz
+output 'Beihai Century Joint Innovation Technology Co.,Ltd 34C601 Unknown' {
+    mode 3440x1440@144.000Hz
     pos 0 0
     adaptive_sync off
 }
-output 'Unknown 34C601 0x00000000' {
-    mode 3440x1440@144.000Hz
-    pos 2560 0
+output 'Microstep MSI MAG321CQR KA3H018500005' {
+    mode 2560x1440@143.972Hz
+    pos 3440 0
     adaptive_sync off
 }
 
@@ -261,18 +261,16 @@ gaps outer 15
 # Statusbar
 bar {
     swaybar_command waybar
-    strip_workspace_numbers yes
+    #strip_workspace_numbers yes
 }
 
 # Media keys
-#bindsym --locked XF86AudioRaiseVolume exec "pactl set-sink-volume $(pamixer --list-sinks | awk '(NR>1){print $1}' | paste -s -d, -) +1%"
-#bindsym --locked XF86AudioLowerVolume exec "pactl set-sink-volume $(pamixer --list-sinks | awk '(NR>1){print $1}' | paste -s -d, -) -1%"
 bindsym --locked XF86AudioRaiseVolume exec "pactl set-sink-volume @DEFAULT_SINK@ +1%"
 bindsym --locked XF86AudioLowerVolume exec "pactl set-sink-volume @DEFAULT_SINK@ -1%"
 bindsym --locked XF86AudioMute exec "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-bindsym --locked XF86AudioPlay exec "playerctl play-pause --player spotify"
-bindsym --locked XF86AudioNext exec "playerctl next --player spotify"
-bindsym --locked XF86AudioPrev exec "playerctl previous --player spotify"
+bindsym --locked XF86AudioPlay exec "playerctl play-pause"
+bindsym --locked XF86AudioNext exec "playerctl next"
+bindsym --locked XF86AudioPrev exec "playerctl previous"
 
 # Wallpaper
 output '*' {
@@ -282,7 +280,7 @@ output '*' {
 # Custom font
 font pango: SourceCodePro Medium 10
 
-# Disable mouse acceleration
+# Disable mouse acceleration, enable numlock
 input '*' {
     accel_profile flat
     xkb_numlock enabled
@@ -313,30 +311,18 @@ bindsym Print exec grim -g "$(slurp -d)" $HOME/Pictures/screenshots/screenshot.p
 workspace $ws2 gaps outer 0
 workspace $ws2 gaps inner 0
 
-# Turn off screen after 50 seconds, and lock after 60. Prevent locks while audio is playing
-#exec sway-audio-idle-inhibit
-#set $lock exec "$HOME/.config/sway/lock.sh"
-#set $lock swaylock --screenshots \
-#    --clock --timestr '%r' --datestr '%d. %b %Y' \
-#    --indicator-idle-visible --indicator-radius 100 --indicator-thickness 7 \
-#    --ignore-empty-password \
-#    --ring-color 00565e --key-gl-color 12e9fc --text-color 12e9fc \
-#    --line-color 00000000 --inside-color 000088 --separator-color 00000000 \
-#    --fade-in 0.2 \
-#    --effects-pixelate 30 --effects-blur 7x5 --effects-vignette 0.5:0.5
-#exec swayidle -w \
-#    timeout 60 $lock \
-#    timeout 50 'swaymsg "output * dpms off"' \
-#    resume 'swaymsg "output * dpms on"' \
-#    before-sleep $lock
-
+# Configure locking like Windows
 set $lockman exec bash ~/.config/sway/lockman.sh
 bindsym $mod+l exec $lockman
 
 # Set RGB lighting profile on start
-exec_always 'ckb-next -b && ckb-next -p main -m blue'
-exec_always 'openrgb -d 0 -m static -c 03FDFC'
-exec_always 'ratbagctl warbling-mara led 0 set color 03FDFC'
+set $mouse exec ratbagctl | sed 's/ *\:.*//'
+exec_always ckb-next -b && ckb-next -p main -m blue
+exec_always flatpak run org.openrgb.OpenRGB -d 0 -m static -c 03FDFC
+exec_always ratbagctl $mouse led 0 set color 03FDFC
 
 # Start polkit
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Start playerctld
+exec playerctld dameon

@@ -130,10 +130,12 @@ label:focus {
 }
 
 #cpu {
+    background-color: #ED1C24;
     min-width: 45px;
 }
 
 #memory {
+    background-color: #046307;
     min-width: 45px;
 }
 
@@ -150,6 +152,7 @@ label:focus {
 }
 
 #network {
+    background-color: #0071C5;
     min-width: 150px;
 }
 
@@ -212,5 +215,6 @@ label:focus {
 }
 
 #custom-gpu {
+    background-color: #ED1C24;
     min-width: 45px;
 }

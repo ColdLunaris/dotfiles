@@ -17,8 +17,8 @@
         "network",
         "custom/gpu",
         "cpu",
-        "memory",
         "temperature",
+        "memory",
         "pulseaudio",
         "clock",
         "tray"
@@ -27,6 +27,13 @@
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
+        //"persistent_workspaces": {
+        //    "I": [],
+        //    "II": [],
+        //    "III": [],
+        //    "IV": [],
+        //    "V": [],
+        //},
         "all-outputs": true,
         "format": "{name}: {icon}",
         "format-icons": {
@@ -100,7 +107,7 @@
     },
     "temperature": {
         // "thermal-zone": 2,
-        "hwmon-path": "/sys/class/hwmon/hwmon1/temp3_input",
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp3_input",
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
@@ -149,7 +156,7 @@
         "on-click": "playerctl --player=spotify play-pause"
     },
     "custom/gpu": {
-        "exec": "cat /sys/class/hwmon/hwmon4/device/gpu_busy_percent",
+        "exec": "/bin/bash $HOME/.config/waybar/gpu-usage.sh",
         "format": "{}% ",
         "return-type": "",
         "interval": 1
