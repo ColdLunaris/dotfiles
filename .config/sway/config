@@ -111,16 +111,16 @@ set $menu 'rofi -show drun -font "Source Code Pro 14"'
 # Workspaces:
 #
     # Workspace names
-    set $ws1 "1:I"
-    set $ws2 "2:II"
-    set $ws3 "3:III"
-    set $ws4 "4:IV"
-    set $ws5 "5:V"
-    set $ws6 "6:VI"
-    set $ws7 "7:VII"
-    set $ws8 "8:VIII"
-    set $ws9 "9:IX"
-    set $ws10 "10:X"
+    set $ws1 "1"
+    set $ws2 "2"
+    set $ws3 "3"
+    set $ws4 "4"
+    set $ws5 "5"
+    set $ws6 "6"
+    set $ws7 "7"
+    set $ws8 "8"
+    set $ws9 "9"
+    set $ws10 "10"
 
     # Switch to workspace
     bindsym $mod+1 workspace $ws1
@@ -318,7 +318,7 @@ bindsym $mod+l exec $lockman
 # Set RGB lighting profile on start
 set $mouse exec ratbagctl | sed 's/ *\:.*//'
 exec_always ckb-next -b && ckb-next -p main -m blue
-exec_always flatpak run org.openrgb.OpenRGB -d 0 -m static -c 03FDFC
+exec_always flatpak run org.openrgb.OpenRGB -d "ASUS ROG STRIX X570-F GAMING" -z 0 -m static -c 03FDFC
 exec_always ratbagctl $mouse led 0 set color 03FDFC
 
 # Start polkit
