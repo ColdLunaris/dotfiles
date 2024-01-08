@@ -15,7 +15,8 @@
     ],
     "modules-right": [
         "network",
-        "custom/gpu",
+        "custom/gpu_amd",
+        "custom/gpu_nvidia",
         "cpu",
         "temperature",
         "memory",
@@ -125,7 +126,7 @@
         "interval": 1
     },
     "network": {
-        "interface": "enp4s0", // (Optional) To force the use of this interface
+        "interface": "enp4s0f1", // (Optional) To force the use of this interface
         // "format-wifi": "{essid} ({signalStrength}%) ",
         //"format-ethernet": "{ipaddr}/{cidr} ",
         "format-ethernet": "Down: {bandwidthDownBits} Up: {bandwidthUpBits} ",
@@ -165,11 +166,16 @@
         "exec": "/usr/bin/python3 $HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null",
         "on-click": "playerctl --player=spotify play-pause"
     },
-    "custom/gpu": {
-        "exec": "/bin/bash $HOME/.config/waybar/gpu-usage.sh",
-        "format": "{}% ",
+    "custom/gpu_amd": {
+        "exec": "/bin/bash $HOME/.config/waybar/amd-gpu.sh",
+        "format": "{}",
         "return-type": "",
         "interval": 1
+    },
+    "custom/gpu_nvidia": {
+        "exec": "/bin/bash $HOME/.config/waybar/nvidia-gpu.sh",
+        "format": "{}",
+        "return-type": "",
+        "interval": 1   
     }
 }
-

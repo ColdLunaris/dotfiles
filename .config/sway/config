@@ -14,7 +14,7 @@ set $down k
 set $up i
 set $right l
 # Your preferred terminal emulator
-set $term alacritty
+set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -317,12 +317,12 @@ bindsym $mod+l exec $lockman
 
 # Set RGB lighting profile on start
 set $mouse exec ratbagctl | sed 's/ *\:.*//'
-exec_always ckb-next -b && ckb-next -p main -m blue
-exec_always flatpak run org.openrgb.OpenRGB -d "ASUS ROG STRIX X570-F GAMING" -z 0 -m static -c 03FDFC
-exec_always ratbagctl $mouse led 0 set color 03FDFC
+exec_always ckb-next -b && ckb-next -p main -m orange\/brown
+exec_always flatpak run org.openrgb.OpenRGB -d "ASUS ROG STRIX X570-F GAMING" -z 0 -m static -c 591E01
+exec_always ratbagctl $mouse led 0 set color 591E01
 
 # Start polkit
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Start playerctld
 exec playerctld dameon

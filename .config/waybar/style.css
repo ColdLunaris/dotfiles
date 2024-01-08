@@ -75,7 +75,8 @@ window#waybar.chromium {
 #network,
 #pulseaudio,
 #custom-media,
-#custom-gpu,
+#custom-gpu_nvidia,
+#custom-gpu_amd,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -210,11 +211,15 @@ label:focus {
 #custom-media {
     padding: 0 10px;
     margin: 0 4px;
-    background-color: #1DB954;
     color: black;
 }
 
-#custom-gpu {
+#custom-gpu_amd {
     background-color: #ED1C24;
+    min-width: 45px;
+}
+
+#custom-gpu_nvidia {
+    background-color: #76B900;
     min-width: 45px;
 }
